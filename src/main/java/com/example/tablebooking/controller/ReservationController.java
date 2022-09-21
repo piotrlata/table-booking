@@ -17,15 +17,15 @@ public class ReservationController {
     @PreAuthorize("isAuthenticated()")
     @Operation(description = "book table for user", security = {@SecurityRequirement(name = "bearer"),
             @SecurityRequirement(name = "basicAuth")})
-    public void bookTable(@RequestParam Long tableId, @RequestParam Integer numberOfGuests) {
-        reservationService.bookTable(tableId, numberOfGuests);
+    public Boolean bookTable(@RequestParam Long tableId, @RequestParam Integer numberOfGuests) {
+        return reservationService.bookTable(tableId, numberOfGuests);
     }
 
     @PutMapping
     @PreAuthorize("isAuthenticated()")
     @Operation(description = "book table for user", security = {@SecurityRequirement(name = "bearer"),
             @SecurityRequirement(name = "basicAuth")})
-    public void cancelReservation(@RequestParam Long tableId) {
-        reservationService.cancelReservation(tableId);
+    public Boolean cancelReservation(@RequestParam Long tableId) {
+        return reservationService.cancelReservation(tableId);
     }
 }

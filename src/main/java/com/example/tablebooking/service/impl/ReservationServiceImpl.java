@@ -18,7 +18,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final RestaurantTableService restaurantTableService;
 
     @Override
-    public void bookTable(Long tableId, Integer numberOfGuests) {
+    public Boolean bookTable(Long tableId, Integer numberOfGuests) {
         var currentUser = userService.getCurrentUser();
         restaurantTableService.updateTableStatus(TableStatus.BOOKED, tableId);
         var table = restaurantTableService.getTable(tableId);
@@ -31,10 +31,11 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setRestaurantTable(table);
         reservation.setUser(currentUser);
         reservationRepository.save(reservation);
+        return true;
     }
 
     @Override
-    public void cancelReservation(Long tableId) {
+    public Boolean cancelReservation(Long tableId) {
         restaurantTableService.updateTableStatus(TableStatus.AVAILABLE, tableId);
         var reservationOptional = reservationRepository.findByRestaurantTableId(tableId);
         if (reservationOptional.isEmpty()) {
@@ -43,5 +44,6 @@ public class ReservationServiceImpl implements ReservationService {
         var reservation = reservationOptional.get();
         reservation.setReservationStatus(ReservationStatus.CANCELED);
         reservationRepository.save(reservation);
+        return true;
     }
 }

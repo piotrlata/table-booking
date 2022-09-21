@@ -52,7 +52,7 @@ public class RestaurantTableController {
         return restaurantTableMapper.daoToDto(restaurantTableService.getTable(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     @PreAuthorize("isAnonymous()")
     @Operation(description = "get all tables", security = {@SecurityRequirement(name = "bearer"),
             @SecurityRequirement(name = "basicAuth")})
