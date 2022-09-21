@@ -1,5 +1,7 @@
 package com.example.tablebooking.model.dto;
 
+import com.example.tablebooking.validation.PasswordValid;
+import com.example.tablebooking.validation.group.CreateUser;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@PasswordValid(groups = CreateUser.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
     private Long id;
@@ -19,9 +22,9 @@ public class UserDto {
     private String lastName;
     @NotBlank
     private String email;
-    @NotBlank
+    @NotBlank(groups = CreateUser.class)
     private String password;
-    @NotBlank
+    @NotBlank(groups = CreateUser.class)
     private String confirmedPassword;
 }
 

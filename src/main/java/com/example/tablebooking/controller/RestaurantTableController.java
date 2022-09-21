@@ -21,7 +21,8 @@ public class RestaurantTableController {
 
     @PostMapping
     @PreAuthorize("isAuthenticated() && hasAuthority('SCOPE_ADMIN')")
-    @Operation(description = "add new table", security = {@SecurityRequirement(name = "bearer")})
+    @Operation(description = "add new table", security = {@SecurityRequirement(name = "bearer"),
+            @SecurityRequirement(name = "basicAuth")})
     public RestaurantTableDto createTable(@RequestBody RestaurantTableDto restaurantTableDto) {
         return restaurantTableMapper.daoToDto(restaurantTableService
                 .createTable(restaurantTableMapper.dtoToDao(restaurantTableDto)));
@@ -29,28 +30,32 @@ public class RestaurantTableController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("isAuthenticated() && hasAuthority('SCOPE_ADMIN')")
-    @Operation(description = "delete table", security = {@SecurityRequirement(name = "bearer")})
+    @Operation(description = "delete table", security = {@SecurityRequirement(name = "bearer"),
+            @SecurityRequirement(name = "basicAuth")})
     public void deleteTable(@PathVariable Long id) {
         restaurantTableService.deleteTable(id);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("isAuthenticated() && hasAuthority('SCOPE_ADMIN')")
-    @Operation(description = "update status of the table", security = {@SecurityRequirement(name = "bearer")})
+    @Operation(description = "update status of the table", security = {@SecurityRequirement(name = "bearer"),
+            @SecurityRequirement(name = "basicAuth")})
     public RestaurantTableDto updateTableStatus(@RequestBody TableStatus tableStatus, @PathVariable Long id) {
         return restaurantTableMapper.daoToDto(restaurantTableService.updateTableStatus(tableStatus, id));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated() && hasAuthority('SCOPE_ADMIN')")
-    @Operation(description = "get table details", security = {@SecurityRequirement(name = "bearer")})
+    @Operation(description = "get table details", security = {@SecurityRequirement(name = "bearer"),
+            @SecurityRequirement(name = "basicAuth")})
     public RestaurantTableDto getTable(@PathVariable Long id) {
         return restaurantTableMapper.daoToDto(restaurantTableService.getTable(id));
     }
 
     @GetMapping("/all")
     @PreAuthorize("isAnonymous()")
-    @Operation(description = "get all table details", security = {@SecurityRequirement(name = "bearer")})
+    @Operation(description = "get all tables", security = {@SecurityRequirement(name = "bearer"),
+            @SecurityRequirement(name = "basicAuth")})
     public List<RestaurantTableDto> getAllTables() {
         return restaurantTableMapper.listDaoToListDto(restaurantTableService.getAllTables());
     }

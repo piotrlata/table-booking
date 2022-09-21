@@ -12,7 +12,5 @@ public interface RestaurantTableMapper {
 
     RestaurantTableDto daoToDto(RestaurantTable restaurantTable);
 
-    List<RestaurantTable> listDtoToListDao(List<RestaurantTableDto> restaurantTableDtos);
-
     List<RestaurantTableDto> listDaoToListDto(List<RestaurantTable> restaurantTables);
 }

@@ -5,7 +5,6 @@ import com.example.tablebooking.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -25,16 +24,16 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public SuccessfulLoginDto login(String email, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-        JwtClaimsSet claims = JwtClaimsSet.builder()
+        var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+        var authenticate = authenticationManager.authenticate(authenticationToken);
+        var claims = JwtClaimsSet.builder()
                 .subject(authenticate.getName())
                 .expiresAt(Instant.now().plus(24, ChronoUnit.HOURS))
                 .claim("scope", authenticate.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.joining(" ")))
                 .build();
-        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        var token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
         return new SuccessfulLoginDto(token);
     }
 }

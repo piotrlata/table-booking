@@ -30,7 +30,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     @Override
     @Transactional
     public RestaurantTable updateTableStatus(TableStatus tableStatus, Long id) {
-        RestaurantTable tableDb = getTable(id);
+        var tableDb = getTable(id);
         tableDb.setTableStatus(tableStatus);
         return tableDb;
     }
