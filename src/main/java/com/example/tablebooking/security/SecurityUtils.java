@@ -10,4 +10,10 @@ public class SecurityUtils {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null ? authentication.getName() : null;
     }
+
+    public static boolean hasAuthority(String role) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(role));
+    }
 }
